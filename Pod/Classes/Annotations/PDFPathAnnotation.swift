@@ -8,6 +8,38 @@
 
 import UIKit
 
+// MARK: - PDFPathAnnotation + Notification.Name
+extension Notification.Name {
+    /// 成为激活状态
+    public static let PDFAnnotationBecomeActive: NSNotification.Name = .init(rawValue: "PDFAnnotationBecomeActive")
+}
+
+// MARK: - PDFPathView
+
+class PDFPathView: ResizableView, PDFAnnotationView {
+    var parent: PDFAnnotation?
+    override var canBecomeFirstResponder: Bool { return true }
+    
+    convenience init(parent: PDFPathAnnotation, frame: CGRect) {
+        
+        self.init()
+        
+        self.frame = frame
+        self.parent = parent
+        self.delegate = parent
+        
+        backgroundColor = UIColor.clear
+        isOpaque = false
+        clipsToBounds = false
+    }
+    
+    override func draw(_ rect: CGRect) {
+        (parent as? PDFPathAnnotation)?.drawRect(rect)
+    }
+}
+
+// MARK: - PDFPathAnnotation
+
 open class PDFPathAnnotation: NSObject, NSCoding {
     
     public var page: Int?
@@ -80,28 +112,7 @@ open class PDFPathAnnotation: NSObject, NSCoding {
         aCoder.encode(ctr, forKey: "ctr")
         aCoder.encode(incrementalImage, forKey: "image")
     }
-}
 
-class PDFPathView: ResizableView, PDFAnnotationView {
-    var parent: PDFAnnotation?
-    override var canBecomeFirstResponder: Bool { return true }
-    
-    convenience init(parent: PDFPathAnnotation, frame: CGRect) {
-        
-        self.init()
-        
-        self.frame = frame
-        self.parent = parent
-        self.delegate = parent
-        
-        backgroundColor = UIColor.clear
-        isOpaque = false
-        clipsToBounds = false
-    }
-    
-    override func draw(_ rect: CGRect) {
-        (parent as? PDFPathAnnotation)?.drawRect(rect)
-    }
 }
 
 extension PDFPathAnnotation: PDFAnnotation {
@@ -183,7 +194,9 @@ extension PDFPathAnnotation: PDFAnnotation {
 }
 
 extension PDFPathAnnotation: ResizableViewDelegate {
-    func resizableViewDidBeginEditing(view: ResizableView) { }
+    func resizableViewDidBeginEditing(view: ResizableView) {
+        NotificationCenter.default.post(name: .PDFAnnotationBecomeActive, object: self)
+    }
     
     func resizableViewDidEndEditing(view: ResizableView) {
         self.rect = self.view.frame

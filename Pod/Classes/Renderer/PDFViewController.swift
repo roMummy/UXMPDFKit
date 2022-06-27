@@ -25,7 +25,7 @@ open class PDFViewController: UIViewController {
     }
     
     /// A boolean value that determines if a PDF should have fillable form elements
-    open var allowsFormFilling: Bool = true
+    open var allowsFormFilling: Bool = false
     
     /// A boolean value that determines if annotations are allowed
     open var allowsAnnotations: Bool = true
@@ -224,7 +224,7 @@ open class PDFViewController: UIViewController {
                     buttons.append(button)
                 }
             }
-            
+
             buttons.append(PDFBarButton(
                 image: UIImage.bundledImage("annot"),
                 toggled: showingAnnotations,
@@ -329,9 +329,9 @@ extension PDFViewController: PDFSinglePageViewerDelegate {
     }
     
     public func singlePageViewer(_ collectionView: PDFSinglePageViewer, loadedContent content: PDFPageContentView) {
-//        if allowsFormFilling {
-//            formController.showForm(content)
-//        }
+        if allowsFormFilling {
+            formController.showForm(content)
+        }
         if allowsAnnotations {
             annotationController.showAnnotations(content)
         }

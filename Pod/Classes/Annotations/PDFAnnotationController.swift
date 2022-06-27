@@ -120,6 +120,17 @@ open class PDFAnnotationController: UIViewController {
         view.backgroundColor = UIColor.clear
         
         self.loadButtons(for: self.annotationTypes)
+        // 监听注释被选中
+        NotificationCenter.default.addObserver(self, selector: #selector(annotationBecomeActive(_:)), name: .PDFAnnotationBecomeActive, object: nil)
+    }
+    
+    // MARK: - Notifacation
+    @objc
+    func annotationBecomeActive(_ sender: Notification) {
+        guard let obj = sender.object as? PDFAnnotation else {
+            return
+        }
+        select(annotation: obj)
     }
     
     //MARK: - Annotation handling
@@ -177,7 +188,7 @@ open class PDFAnnotationController: UIViewController {
     
     @IBAction func selectedUndo(_ button: PDFBarButton) {
         
-        finishAnnotation()
+//        finishAnnotation()
         undo()
     }
     
@@ -212,6 +223,8 @@ open class PDFAnnotationController: UIViewController {
                 showAnnotations(pageContentView)
                 return
             }
+        } else {
+            finishAnnotation()
         }
     }
     

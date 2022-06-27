@@ -39,13 +39,15 @@ open class PDFPageContentView: UIScrollView, UIScrollViewDelegate {
         containerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
 
         super.init(frame: frame)
-
+        
         scrollsToTop = false
         delaysContentTouches = false
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
         contentMode = .redraw
         backgroundColor = UIColor.clear
+//        backgroundColor = .systemPink
+        
         isUserInteractionEnabled = true
         autoresizesSubviews = false
         isPagingEnabled = false
@@ -152,7 +154,8 @@ open class PDFPageContentView: UIScrollView, UIScrollViewDelegate {
             contentDelegate?.contentView(self, didSelect: action)
         }
         else if let annotation = contentView.processSingleTap(recognizer) as? PDFAnnotationView {
-            contentDelegate?.contentView(self, didSelect: annotation)
+            // TODO: 这里注释点击有问题
+//            contentDelegate?.contentView(self, didSelect: annotation)
         }
         else {
             contentDelegate?.contentView(self, tapped: recognizer)

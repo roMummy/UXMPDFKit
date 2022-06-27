@@ -28,7 +28,7 @@ public class PDFPageContent: UIView {
     }
     
     //MARK: - Init
-    init(pdfDocument: PDFDocument, page: Int, password: String?) {
+    init(pdfDocument: UXMPDFDocument, page: Int, password: String?) {
         pdfDocRef = pdfDocument.documentRef!
         /// Limit the page
         let pages = pdfDocRef.numberOfPages
@@ -91,7 +91,7 @@ public class PDFPageContent: UIView {
         buildAnnotationLinksList()
     }
     
-    convenience init(document: PDFDocument, page: Int) {
+    convenience init(document: UXMPDFDocument, page: Int) {
         self.init(pdfDocument: document, page: page, password: document.password)
     }
     

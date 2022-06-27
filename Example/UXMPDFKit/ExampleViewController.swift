@@ -14,7 +14,7 @@ class ExampleViewController: UIViewController {
     @IBAction func loadPDF() {
 
         let url = Bundle.main.path(forResource: "sample2", ofType: "pdf")!
-        let document = try! PDFDocument.from(filePath: url)
+        let document = try! UXMPDFDocument.from(filePath: url)
         
         let pdf = PDFViewController(document: document!)
         pdf.annotationController.annotationTypes = [

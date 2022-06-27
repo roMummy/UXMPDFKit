@@ -17,7 +17,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let url = Bundle.main.path(forResource: "sample", ofType: "pdf")!
-        let document = try! PDFDocument(filePath: url, password: "")
+        let document = try! UXMPDFDocument(filePath: url, password: "")
         
         self.collectionView.document = document
     }

@@ -167,6 +167,7 @@ class PDFSignAnnotationView: ResizableView, UXMPDFAnnotationView {
         let nvc = UINavigationController(rootViewController: signController)
         nvc.modalPresentationStyle = .formSheet
         nvc.preferredContentSize = CGSize(width: 640, height: 300)
+        nvc.modalPresentationStyle = .overFullScreen
         UIViewController.topController()?.present(nvc, animated: true)
     }
 

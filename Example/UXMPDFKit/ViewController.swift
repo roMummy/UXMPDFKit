@@ -11,7 +11,7 @@ import UXMPDFKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet var collectionView:PDFSinglePageViewer!
+    @IBOutlet var collectionView:UXMSinglePageViewer!
     
     override func viewDidLoad() {
         super.viewDidLoad()

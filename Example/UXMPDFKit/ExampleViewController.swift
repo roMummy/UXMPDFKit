@@ -16,11 +16,11 @@ class ExampleViewController: UIViewController {
         let url = Bundle.main.path(forResource: "sample2", ofType: "pdf")!
         let document = try! UXMPDFDocument.from(filePath: url)
         
-        let pdf = PDFViewController(document: document!)
+        let pdf = UXMPDFViewController(document: document!)
         pdf.annotationController.annotationTypes = [
-            PDFHighlighterAnnotation.self,
-            PDFPenAnnotation.self,
-            PDFTextAnnotation.self
+            UXMHighlighterAnnotation.self,
+            UXMPenAnnotation.self,
+            UXMTextAnnotation.self
         ]
         
         self.navigationController?.pushViewController(pdf, animated: true)

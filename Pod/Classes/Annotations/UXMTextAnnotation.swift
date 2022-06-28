@@ -61,6 +61,9 @@ open class UXMTextAnnotation: NSObject, NSCoding {
 }
 
 extension UXMTextAnnotation: UXMAnnotation {
+    public func resize() {
+        
+    }
     
     public func mutableView() -> UIView {
         view = PDFTextAnnotationView(parent: self)

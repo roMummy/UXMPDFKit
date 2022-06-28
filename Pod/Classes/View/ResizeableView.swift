@@ -71,6 +71,7 @@ open class ResizableView: UIView {
             return !self.borderView.isHidden
         }
     }
+    //
     var isResizing: Bool {
         get {
             guard let anchorPoint = self.anchorPoint else { return false }

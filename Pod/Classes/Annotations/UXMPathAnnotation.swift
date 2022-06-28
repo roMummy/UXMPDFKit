@@ -64,6 +64,7 @@ open class UXMPathAnnotation: NSObject, NSCoding {
     }
     
     func drawRect(_ frame: CGRect, point: CGPoint = CGPoint.zero) {
+        print("path - \(path.bounds)")
         self.incrementalImage?.draw(at: point)
         self.path.lineWidth = self.lineWidth
         self.color.setStroke()
@@ -162,6 +163,10 @@ extension UXMPathAnnotation: UXMAnnotation {
         self.saved = true
     }
     
+    public func resize() {
+        self.rect = path.bounds.insetBy(dx: -5, dy: -5)
+    }
+    
     func drawBitmap() {
         UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
         if incrementalImage == nil {
@@ -178,15 +183,27 @@ extension UXMPathAnnotation: UXMAnnotation {
     }
     
     public func drawInContext(_ context: CGContext) {
-        drawBitmap()
+//        drawBitmap()
         drawRect(rect, point: rect.origin)
     }
 }
 
 extension UXMPathAnnotation: ResizableViewDelegate {
-    func resizableViewDidBeginEditing(view: ResizableView) { }
+    func resizableViewDidBeginEditing(view: ResizableView) {
+        print("resizableViewDidBeginEditing")
+    }
     
     func resizableViewDidEndEditing(view: ResizableView) {
+        print("resizableViewDidEndEditing")
+        print("======")
+        print("rect - \(rect)")
+        print("view.frame - \(view.frame)")
+        print("path.bounds - \(path.bounds)")
+        print("======")
+        
+        self.path.move(fromPoint: rect.origin, toPoint: view.frame.origin)
+//        self.path.scale(fromSize: rect.size, toSize: view.frame.size)
+//        save()
         self.rect = self.view.frame
     }
     

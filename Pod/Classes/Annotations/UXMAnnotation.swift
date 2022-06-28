@@ -39,6 +39,8 @@ public protocol UXMAnnotation {
     func didEnd()
     
     func encode(with aCoder: NSCoder)
+    
+    func resize()
 }
 
 public protocol UXMPDFAnnotationButtonable: UXMAnnotation {

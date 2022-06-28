@@ -21,6 +21,10 @@ open class UXMAnnotationStore: NSObject, NSCoding {
     weak var delegate: UXMAnnotationStoreDelegate?
 
     func add(annotation: UXMAnnotation) {
+        // 不包含相同的注释内容
+        guard annotations.filter({$0.uuid == annotation.uuid}).count == 0 else {
+            return
+        }
         annotations.append(annotation)
         self.delegate?.annotationStore(store: self, addedAnnotation: annotation)
     }
@@ -46,6 +50,7 @@ open class UXMAnnotationStore: NSObject, NSCoding {
     }
 
     func renderInContext(_ context: CGContext, size: CGRect, page: Int) {
+        print("renderInContext - \(annotations(page: page))")
         for annotation in annotations(page: page) {
             annotation.drawInContext(context)
         }

@@ -172,6 +172,7 @@ open class UXMAnnotationController: UIViewController {
         if annotationType == button.annotationType {
             finishAnnotation()
             button.toggle(false)
+//            currentAnnotation?.resize()
         }
         else {
             startAnnotation(button.annotationType)

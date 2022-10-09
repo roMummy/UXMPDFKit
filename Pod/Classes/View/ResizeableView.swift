@@ -41,7 +41,7 @@ open class ResizableView: UIView {
     var touchStart: CGPoint?
     var minWidth: CGFloat = 48.0
     var minHeight: CGFloat = 48.0
-    var anchorPoint: ResizableViewAnchorPoint?
+    var resizeAnchorPoint: ResizableViewAnchorPoint?
     weak var delegate: ResizableViewDelegate?
     var preventsPositionOutsideSuperview: Bool = true
     var isLocked = false {
@@ -74,7 +74,7 @@ open class ResizableView: UIView {
     //
     var isResizing: Bool {
         get {
-            guard let anchorPoint = self.anchorPoint else { return false }
+            guard let anchorPoint = self.resizeAnchorPoint else { return false }
             return anchorPoint.adjustsH != 0.0
                 || anchorPoint.adjustsW != 0.0
                 || anchorPoint.adjustsX != 0.0
@@ -185,7 +185,7 @@ open class ResizableView: UIView {
         self.delegate?.resizableViewDidBeginEditing(view: self)
         
         self.borderView.isHidden = false
-        self.anchorPoint = self.anchorPoint(touch: touch.location(in: self))
+        self.resizeAnchorPoint = self.anchorPoint(touch: touch.location(in: self))
         
         self.touchStart = touch.location(in: self.superview)
         if !self.isResizing {
@@ -236,7 +236,7 @@ open class ResizableView: UIView {
         
         guard let superview = self.superview,
             let touchStart = self.touchStart,
-            let anchorPoint = self.anchorPoint else { return }
+            let anchorPoint = self.resizeAnchorPoint else { return }
         
         // (1) Update the touch point if we're outside the superview.
         if self.preventsPositionOutsideSuperview {
@@ -335,7 +335,9 @@ open class ResizableView: UIView {
     func showMenuController() {
         
         self.becomeFirstResponder()
-        UIMenuController.shared.setTargetRect(self.frame, in: self.superview!)
+        if let view = superview {
+            UIMenuController.shared.setTargetRect(self.frame, in: view)
+        }        
         UIMenuController.shared.menuItems = self.menuItems
         UIMenuController.shared.setMenuVisible(true, animated: true)
     }

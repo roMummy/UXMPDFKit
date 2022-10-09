@@ -60,7 +60,7 @@ extension UXMSignAnnotation: UXMAnnotation {
 
     public func touchStarted(_ touch: UITouch, point: CGPoint) {
         if rect == CGRect.zero {
-            rect = CGRect(origin: point, size: CGSize(width: 150, height: 48))
+            rect = CGRect(origin: point, size: CGSize(width: 250, height: 100))
         }
         view.touchesBegan([touch], with: nil)
     }
@@ -126,7 +126,7 @@ class PDFSignAnnotationView: ResizableView, UXMPDFAnnotationView {
 
     var signImage: UIImageView = {
         var image = UIImageView()
-        image.contentMode = .scaleAspectFit
+//        image.contentMode = .scaleAsp ectFit
         image.backgroundColor = UIColor.clear
         return image
     }()
@@ -183,6 +183,8 @@ extension UXMSignAnnotation: UXMFormSignatureDelegate {
     func completedSignatureDrawing(field: UXMFormFieldSignatureCaptureView) {
         if let image = field.getSignature() {
             self.image = image
+            let size = image.size.applying(.init(scaleX: 0.5, y: 0.5))
+            self.rect = CGRect(origin: rect.origin, size: size)
         }
 
         view.isLocked = false
